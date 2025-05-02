@@ -41,11 +41,11 @@ async def get_movies(
     if page == 1:
         prev_page = None
     else:
-        prev_page = f"/theater/movies/?page={page-1}&per_page={per_page}"
+        prev_page = f"/theater/movies/?page={page - 1}&per_page={per_page}"
     if page == total_pages:
         next_page = None
     else:
-        next_page = f"/theater/movies/?page={page+1}&per_page={per_page}"
+        next_page = f"/theater/movies/?page={page + 1}&per_page={per_page}"
 
     response = MovieListResponseSchema(
         movies=movies,
@@ -72,6 +72,6 @@ async def get_movie(
     if not movie:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Movie with the given ID was not found."
+            detail="Movie with the given ID was not found."
         )
     return movie
