@@ -18,7 +18,7 @@ async def get_movies(
         page: int = Query(1, ge=1),
         per_page: int = Query(10, ge=1, le=20),
         db: AsyncSession = Depends(get_db),
-) -> MovieListResponseSchema | HTTPException:
+) -> MovieListResponseSchema:
     query = select(MovieModel).limit(per_page).offset((page - 1) * per_page)
     result = await db.execute(query)
     movies_list = result.scalars().all()
@@ -74,4 +74,4 @@ async def get_movie(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Movie with the given ID was not found."
         )
-    return movie
+    return MovieDetailResponseSchema.from_orm(movie)
